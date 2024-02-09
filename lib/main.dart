@@ -1,4 +1,4 @@
-import 'package:expenses/transasction.dart';
+import 'package:expenses/models/transasction.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -16,9 +16,9 @@ class ExpensesApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
-  MyHomePage({super.key});
+  final titleControler = TextEditingController();
+  final valueControler = TextEditingController();
 
-  // ignore: unused_field
   final _transactions = [
     Transaction(
         id: 't1',
@@ -42,6 +42,7 @@ class MyHomePage extends StatelessWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // ignore: avoid_unnecessary_containers
             Container(
               child: const Card(
                 elevation: 5,
@@ -103,13 +104,15 @@ class MyHomePage extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 child: Column(
                   children: [
-                    const TextField(
-                      decoration: InputDecoration(
+                    TextField(
+                      controller: titleControler,
+                      decoration: const InputDecoration(
                         labelText: 'Título',
                       ),
                     ),
-                    const TextField(
-                      decoration: InputDecoration(
+                    TextField(
+                      controller: valueControler,
+                      decoration: const InputDecoration(
                         labelText: 'Valor (R\$)',
                       ),
                     ),
@@ -117,7 +120,10 @@ class MyHomePage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            print(titleControler.text);
+                            print(valueControler.text);
+                          },
                           child: const Text(
                             'Nova Transação',
                             style: TextStyle(color: Colors.purple),
