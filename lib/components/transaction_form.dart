@@ -29,7 +29,7 @@ class _TransactionFormState extends State<TransactionForm> {
     return Card(
       elevation: 5,
       color: Colors.white,
-      shadowColor: Colors.white,
+      surfaceTintColor: Theme.of(context).colorScheme.primary,
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Column(
