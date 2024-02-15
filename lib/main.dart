@@ -12,7 +12,7 @@ class ExpensesApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData tema = ThemeData();
+    final ThemeData tema = ThemeData(fontFamily: 'Quicksand');
 
     return MaterialApp(
       home: const MyHomePage(),
@@ -31,9 +31,20 @@ class ExpensesApp extends StatelessWidget {
           titleSmall: const TextStyle(
             fontFamily: 'OpenSans',
             fontSize: 14,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.normal,
             color: Colors.grey,
           ),
+          labelLarge: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontFamily: 'OpenSans',
+            color: Colors.white,
+          ),
+        ),
+        datePickerTheme: const DatePickerThemeData(
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white,
+          headerBackgroundColor: Colors.purple,
+          headerForegroundColor: Colors.white,
         ),
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.purple,

@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
 class TransactionForm extends StatefulWidget {
@@ -10,12 +11,13 @@ class TransactionForm extends StatefulWidget {
 }
 
 class _TransactionFormState extends State<TransactionForm> {
-  final titleControler = TextEditingController();
-  final valueControler = TextEditingController();
+  final _titleControler = TextEditingController();
+  final _valueControler = TextEditingController();
+  DateTime? _selectedDate = null;
 
   _submitForm() {
-    final title = titleControler.text;
-    final value = double.tryParse(valueControler.text) ?? 0.0;
+    final title = _titleControler.text;
+    final value = double.tryParse(_valueControler.text) ?? 0.0;
 
     if (title.isEmpty || value <= 0) {
       return;
@@ -24,25 +26,42 @@ class _TransactionFormState extends State<TransactionForm> {
     widget.onSubmit(title, value);
   }
 
+  _showDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2021),
+      lastDate: DateTime.now(),
+    ).then((pickedDate) {
+      if (pickedDate == null) {
+        return;
+      }
+
+      setState(() {
+        _selectedDate = pickedDate;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 5,
       color: Colors.white,
-      surfaceTintColor: Theme.of(context).colorScheme.primary,
+      surfaceTintColor: Colors.purple[300],
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Column(
           children: [
             TextField(
-              controller: titleControler,
+              controller: _titleControler,
               onSubmitted: (_) => _submitForm(),
               decoration: const InputDecoration(
                 labelText: 'Título',
               ),
             ),
             TextField(
-              controller: valueControler,
+              controller: _valueControler,
               keyboardType:
                   const TextInputType.numberWithOptions(decimal: true),
               onSubmitted: (_) => _submitForm(),
@@ -50,15 +69,47 @@ class _TransactionFormState extends State<TransactionForm> {
                 labelText: 'Valor (R\$)',
               ),
             ),
+            SizedBox(
+              height: 70,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      _selectedDate == null
+                          ? 'Nenhuma data selecionada!'
+                          : 'Data selecionada: ${DateFormat('dd/MM/y').format(_selectedDate as DateTime)}',
+                      style: TextStyle(
+                        fontFamily:
+                            Theme.of(context).textTheme.labelLarge?.fontFamily,
+                      ),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: _showDatePicker,
+                    child: Text(
+                      'Selecionar data',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                TextButton(
+                ElevatedButton(
                   onPressed: _submitForm,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                  ),
                   child: Text(
                     'Nova Transação',
-                    style:
-                        TextStyle(color: Theme.of(context).colorScheme.primary),
+                    style: TextStyle(
+                      color: Theme.of(context).textTheme.labelLarge?.color,
+                    ),
                   ),
                 ),
               ],
