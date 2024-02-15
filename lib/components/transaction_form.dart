@@ -28,6 +28,8 @@ class _TransactionFormState extends State<TransactionForm> {
   Widget build(BuildContext context) {
     return Card(
       elevation: 5,
+      color: Colors.white,
+      shadowColor: Colors.white,
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Column(
@@ -53,9 +55,10 @@ class _TransactionFormState extends State<TransactionForm> {
               children: [
                 TextButton(
                   onPressed: _submitForm,
-                  child: const Text(
+                  child: Text(
                     'Nova Transação',
-                    style: TextStyle(color: Colors.purple),
+                    style:
+                        TextStyle(color: Theme.of(context).colorScheme.primary),
                   ),
                 ),
               ],
