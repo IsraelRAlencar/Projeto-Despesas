@@ -4,9 +4,10 @@ class Transaction {
   late final double value;
   late final DateTime date;
 
-  Transaction(
-      {required this.id,
-      required this.title,
-      required this.value,
-      required this.date});
+  Transaction({
+    required this.id,
+    required this.title,
+    required this.value,
+    required this.date,
+  });
 }
