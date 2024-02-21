@@ -1,5 +1,7 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'adaptative_button.dart';
+import 'adaptative_text_field.dart';
 
 class TransactionForm extends StatefulWidget {
   final void Function(String, double, DateTime) onSubmit;
@@ -59,22 +61,17 @@ class _TransactionFormState extends State<TransactionForm> {
           ),
           child: Column(
             children: [
-              TextField(
-                controller: _titleControler,
-                onSubmitted: (_) => _submitForm(),
-                decoration: const InputDecoration(
-                  labelText: 'Título',
-                ),
-              ),
-              TextField(
-                controller: _valueControler,
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
-                onSubmitted: (_) => _submitForm(),
-                decoration: const InputDecoration(
-                  labelText: 'Valor (R\$)',
-                ),
-              ),
+              AdaptativeTextField(
+                  controller: _titleControler,
+                  keyboardType: TextInputType.text,
+                  onSubmitted: (_) => _submitForm(),
+                  label: 'Título'),
+              AdaptativeTextField(
+                  controller: _valueControler,
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
+                  onSubmitted: (_) => _submitForm(),
+                  label: 'Valor (R\$)'),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.05,
                 child: Row(
@@ -106,18 +103,8 @@ class _TransactionFormState extends State<TransactionForm> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  ElevatedButton(
-                    onPressed: _submitForm,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                    ),
-                    child: Text(
-                      'Nova Transação',
-                      style: TextStyle(
-                        color: Theme.of(context).textTheme.labelLarge?.color,
-                      ),
-                    ),
-                  ),
+                  AdaptativeButton(
+                      label: 'Nova Transação', onPressed: _submitForm)
                 ],
               )
             ],
