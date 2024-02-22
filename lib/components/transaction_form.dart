@@ -1,7 +1,7 @@
-import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'adaptative_button.dart';
 import 'adaptative_text_field.dart';
+import 'adaptative_date_picker.dart';
 
 class TransactionForm extends StatefulWidget {
   final void Function(String, double, DateTime) onSubmit;
@@ -28,23 +28,6 @@ class _TransactionFormState extends State<TransactionForm> {
     widget.onSubmit(title, value, _selectedDate);
   }
 
-  _showDatePicker() {
-    showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2021),
-      lastDate: DateTime.now(),
-    ).then((pickedDate) {
-      if (pickedDate == null) {
-        return;
-      }
-
-      setState(() {
-        _selectedDate = pickedDate;
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -62,43 +45,25 @@ class _TransactionFormState extends State<TransactionForm> {
           child: Column(
             children: [
               AdaptativeTextField(
-                  controller: _titleControler,
-                  keyboardType: TextInputType.text,
-                  onSubmitted: (_) => _submitForm(),
-                  label: 'Título'),
+                controller: _titleControler,
+                keyboardType: TextInputType.text,
+                onSubmitted: (_) => _submitForm(),
+                label: 'Título',
+              ),
               AdaptativeTextField(
-                  controller: _valueControler,
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                  onSubmitted: (_) => _submitForm(),
-                  label: 'Valor (R\$)'),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.05,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'Data selecionada: ${DateFormat('dd/MM/y').format(_selectedDate)}',
-                        style: TextStyle(
-                          fontFamily: Theme.of(context)
-                              .textTheme
-                              .labelLarge
-                              ?.fontFamily,
-                        ),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: _showDatePicker,
-                      child: Text(
-                        'Selecionar data',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                controller: _valueControler,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                onSubmitted: (_) => _submitForm(),
+                label: 'Valor (R\$)',
+              ),
+              AdaptativeDatePicker(
+                selectedDate: _selectedDate,
+                onDateChanged: (newDate) {
+                  setState(() {
+                    _selectedDate = newDate;
+                  });
+                },
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
